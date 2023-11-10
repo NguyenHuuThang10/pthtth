@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Weather Dashboard</title>
+    <link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+    <div class="container">
+        <h1>Weather Dashboard</h1>
+        <div class="box">
+            <label for="cityInput">Nhập tên thành phố:</label>
+            <input class="text-input" type="text" id="cityInput" placeholder="Enter city">
+            <button class="btn" onclick="submitCity()">Get Weather</button>
+        </div>
+
+        <div class="weather-box">
+            <div class="box-white">
+                <table style="width:100%">
+                    <tr>
+                      <th>Thành phố</th> 
+                      <th>Thời tiết</th>
+                      <th>Nhiệt độ (°C)</th>
+                      <th>Độ ẩm (%)</th>
+                      <th>Tốc độ gió</th>
+                    </tr>
+                    <tr id="weather-data">
+                    </tr>
+                  </table>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        const socket = new WebSocket("ws://localhost:8765");
+    
+        socket.onmessage = (event) => {
+            const weatherData = JSON.parse(event.data);
+            updateWeatherData(weatherData);
+        };
+    
+        function updateWeatherData(data) {
+            const weatherContainer = document.getElementById("weather-data");
+            weatherContainer.innerHTML = `
+                <td>${data.name}</td>
+                <td>${data.weather[0].description}</td>
+                <td>${data.main.temp} °C</td>
+                <td>${data.main.humidity} %</td>
+                <td>${data.wind.speed} m/s</td>
+            `;
+        }
+    
+        function submitCity() {
+            const cityInput = document.getElementById("cityInput").value;
+            socket.send(cityInput);
+        }
+    
+        function convertToFahrenheit(fahrenheit) {
+            return ((fahrenheit - 32) * 5 / 9).toFixed(2);
+        }
+    </script>
+</body>
+</html>

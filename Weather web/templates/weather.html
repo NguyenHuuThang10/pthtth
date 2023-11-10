@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Weather App</title>
+</head>
+<body>
+    <h1>Dự báo thời tiết</h1>
+    <form method="POST">
+        <h4>Nhập tên thành phố: </h4>
+        <input type="text" name="city" placeholder="Tên thành phố">
+        <input type="submit" value="Xem dự báo">
+    </form>
+
+    {% if weather %}
+       <h4> {{ weather }} </h4>
+    {% endif %}
+
+    {% if error %}
+        <p>{{ error }}</p>
+    {% endif %}
+    
+  
+    
+
+    
+</body>
+</html>
