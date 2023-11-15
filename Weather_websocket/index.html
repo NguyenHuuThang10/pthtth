@@ -12,18 +12,20 @@
         <div class="box">
             <label for="cityInput">Nhập tên thành phố:</label>
             <input class="text-input" type="text" id="cityInput" placeholder="Enter city">
-            <button class="btn" onclick="submitCity()">Get Weather</button>
+            <button class="btn" onclick="submitCity()">Xem dự báo</button>
         </div>
 
         <div class="weather-box">
             <div class="box-white">
                 <table style="width:100%">
                     <tr>
-                      <th>Thành phố</th> 
-                      <th>Thời tiết</th>
-                      <th>Nhiệt độ (°C)</th>
-                      <th>Độ ẩm (%)</th>
-                      <th>Tốc độ gió</th>
+                        <th>Ngày</th> 
+                        <th>Thời gian</th> 
+                        <th>Thành phố</th> 
+                        <th>Thời tiết</th>
+                        <th>Nhiệt độ (°C)</th>
+                        <th>Độ ẩm (%)</th>
+                        <th>Tốc độ gió</th>
                     </tr>
                     <tr id="weather-data">
                     </tr>
@@ -39,10 +41,16 @@
             const weatherData = JSON.parse(event.data);
             updateWeatherData(weatherData);
         };
-    
+        
+        var today = new Date();
+        var date = today.getDate()+'-'+(today.getMonth()+1)+'-'+today.getFullYear();
+        var time = today.getHours() + ":" + today.getMinutes() + ":" + today.getSeconds();
+
         function updateWeatherData(data) {
             const weatherContainer = document.getElementById("weather-data");
             weatherContainer.innerHTML = `
+                <td>${date}</td>
+                <td>${time}</td>
                 <td>${data.name}</td>
                 <td>${data.weather[0].description}</td>
                 <td>${data.main.temp} °C</td>
